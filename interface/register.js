@@ -90,5 +90,17 @@ app.route.post('/verifypayslip', async function(req,cb){
 
 })
 
+app.route.post("/testing", async function(req, cb){
+    var obj = {
+        email: req.query.email,
+        otpnumber: req.query.otpnumber
+    }
+
+    app.sdb.create('otp', obj);
+
+    return "Success";
+    
+})
+
 
 
