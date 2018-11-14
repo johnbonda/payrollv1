@@ -65,10 +65,7 @@ app.route.post('/wallet/creation', async function(req,cb) {
 
 app.route.post('/user/exist', async function(req, cb){
 
-    var params = {
-        email: req.query.email
-    }
-
+    var email = req.query.email;
     var respond;
 
     await request("http://54.254.190.96:8080/api/v1/user/exist?email=" + email, function(error, response, body) {
