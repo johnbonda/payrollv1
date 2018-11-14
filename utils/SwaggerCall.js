@@ -7,7 +7,7 @@ module.exports = {
             var options = {
                 method: method,
                 url: URI + ''+ url_path,
-                headers:{
+                headers:{'Content-Type':'application/json'
                 },
                 body: JSON.stringify(payload)
             };

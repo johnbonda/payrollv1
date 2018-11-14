@@ -5,7 +5,7 @@ var addressHelper = require('../utils/address.js');
 var z_schema = require('../utils/zschema-express.js');
 var BKVSCall = require('../utils/BKVSCall.js');
 var SwaggerCall = require('../utils/SwaggerCall.js');
-
+var request = require('request');
 
 // Return Payslip with empname
 app.route.get('/payslip/:empname',  async function (req) {
@@ -64,12 +64,19 @@ app.route.post('/wallet/creation', async function(req,cb) {
 });
 
 app.route.post('/user/exist', async function(req, cb){
+
     var params = {
         email: req.query.email
     }
-    var response = await SwaggerCall.call('GET', '/api/v1/user/exist', params); // Call: //http://54.254.190.96:8080/api/v1/user/exist
 
-    return response;
+    var respond;
+
+    await request("http://54.254.190.96:8080/api/v1/user/exist?email=" + email, function(error, response, body) {
+  console.log(body);
+  respond = response;
+});
+    
+    return respond;
     
 });
 
