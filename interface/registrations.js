@@ -65,16 +65,12 @@ app.route.post('/wallet/creation', async function(req,cb) {
 
 app.route.post('/user/exist', async function(req, cb){
 
-    var email = req.query.email;
-    var respond = "hii";
+    var param = {
+        email: req.query.email
+    }
 
-    await request("http://54.254.190.96:8080/api/v1/user/exist?email=" + email, function(error, response, body) {
-  console.log(body);
-  respond = body;
-  return body;
-});
-    
-    return respond;
+    var response = await SwaggerCall.call('GET', '/api/v1/user/exist?email=' + param.email, param);
+    return response;
     
 });
 
