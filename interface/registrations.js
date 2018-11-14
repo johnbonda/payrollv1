@@ -4,6 +4,7 @@ var constants = require('../utils/constants.js');
 var addressHelper = require('../utils/address.js');
 var z_schema = require('../utils/zschema-express.js');
 var BKVSCall = require('../utils/BKVSCall.js');
+var SwaggerCall = require('../utils/SwaggerCall.js');
 
 
 // Return Payslip with empname
@@ -54,12 +55,23 @@ app.route.post('/wallet/creation', async function(req,cb) {
         type:req.query.type
     };
     
-    var response = await httpCall.call('POST','/api/v1/signup',ac_params); Call: http://54.254.174.74:8080
+    var response = await httpCall.call('POST','/api/v1/signup',ac_params); // Call: http://54.254.174.74:8080
 
     if(response && !response.success){
         return response;
     }
 
+});
+
+app.route.post('/user/exist', async function(req, cb){
+    var params = {
+        email: req.query.email
+    }
+    
+    var response = await SwaggerCall.call('GET', '/api/v1/user/exist', params); // Call: //http://54.254.190.96:8080/api/v1/user/exist
+
+    return response;
+    
 });
 
 // Get Wallet Address
