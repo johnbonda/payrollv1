@@ -68,7 +68,7 @@ app.route.post('/user/exist', async function(req, cb){
     var email = req.query.email;
     var respond;
 
-    await request("http://54.254.190.96:8080/api/v1/user/exist?email=" + email, function(error, response, body) {
+    request("http://54.254.190.96:8080/api/v1/user/exist?email=" + email, function(error, response, body) {
   console.log(body);
   respond = response;
 });
