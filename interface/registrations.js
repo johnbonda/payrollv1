@@ -67,7 +67,6 @@ app.route.post('/user/exist', async function(req, cb){
     var params = {
         email: req.query.email
     }
-    
     var response = await SwaggerCall.call('GET', '/api/v1/user/exist', params); // Call: //http://54.254.190.96:8080/api/v1/user/exist
 
     return response;

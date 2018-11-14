@@ -6,11 +6,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             var options = {
                 method: method,
-                url: URI + '' + url_path,
+                url: URI + ''+ url_path,
                 headers:{
-                    'Content-Type':'application/json',
-                    'magic': '594fe0f3',
-             'version': ''
                 },
                 body: JSON.stringify(payload)
             };
