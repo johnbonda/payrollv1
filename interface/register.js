@@ -13,6 +13,8 @@ app.route.post('/payslip/issuedOrNot', async function(req){
 
     var result = await app.model.Payslip.exists(obj);
 
+    console.log("The result is: " + result);
+
     return result;
 })
 
