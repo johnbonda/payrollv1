@@ -32,7 +32,7 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 
     for(obj in result){
         let options = {
-            empid: obj.empID,
+            empid: result[obj].empID,
             month: req.query.month,
             year: req.query.year,
         }
