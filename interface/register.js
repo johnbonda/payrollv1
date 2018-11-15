@@ -8,10 +8,9 @@ app.route.post('/payslip/issuedOrNot', async function(req){
         year: req.query.year
     }
 
-    var result = app.model.Payslip.exists(obj);
+    var result = await app.model.Payslip.exists(obj);
 
-    if(result) return true;
-    return false;
+    return result;
 })
 
 // For the employee table,
@@ -23,7 +22,7 @@ app.route.get('/employees', async function(req){
         fields: ['empID', 'name', 'designation']
     }
 
-    var result = app.model.Employee.findAll(options);
+    var result = await app.model.Employee.findAll(options);
 
     return result;
 })
@@ -40,7 +39,7 @@ app.route.post('/employeeData', async function(req,cb){
         fields: ['email', 'empID', 'name', 'designation', 'salary']
     }
 
-    var result = app.model.Employee.findOne(options);
+    var result = await app.model.Employee.findOne(options);
 
     return result;
 })
