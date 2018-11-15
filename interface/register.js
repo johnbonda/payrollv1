@@ -22,7 +22,7 @@ app.route.post('/payslip/issuedOrNot', async function(req, cb){
 app.route.post('/payslip/pendingIssues', async function(req, cb){  // High intensive call, need to find an alternative
    
     var options = {
-        fields: ['empID']
+        fields: ['empID','name','designation']
     } 
 
     var result = await app.model.Employee.findAll(options);
@@ -32,12 +32,12 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 
     for(obj in result){
         let options = {
-            empid: obj,
+            empid: obj.empID,
             month: req.query.month,
             year: req.query.year,
         }
         let response = await app.model.Payslip.exists(options);
-        if(!response) array.push(obj);
+        if(!response) array.push(result[obj]);
     }
     return array;
 })
