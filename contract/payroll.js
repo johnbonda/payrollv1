@@ -142,10 +142,8 @@ module.exports = {
 
     registerEmployee: async function(countryCode, email, lastName, name, password, uuid, designation, bank, accountNumber, pan, salary, token){
         
-        var result = app.model.Employee.findOne({
-            condition:{
-                email: email
-            }
+        var result = app.model.Employee.exists({
+            email: email
         });
         if(result) return "Employee already registered";
 
@@ -160,7 +158,7 @@ module.exports = {
 
         var response = await SwaggerCall.call('POST', '/api/v1/register/verifier', options);
 
-        if(!response) return "No response";
+        if(!response) return "No response from verifier call";
         if(!response.isSuccess) return response;
 
         var data = response.data;
@@ -174,7 +172,7 @@ module.exports = {
 
         var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
 
-        if(!resp) return "No response";
+        if(!resp) return "No response from change role call";
         if(!resp.isSuccess) return resp;
 
         var creat = {
