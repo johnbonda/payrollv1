@@ -47,7 +47,8 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 // outputs: empid, name, designations
 app.route.get('/employees', async function(req){
     var options = {
-        fields: ['empID', 'name', 'designation']
+        //fields: ['empID', 'name', 'designation']
+        fields: ['empID']
     }
 
     var result = await app.model.Employee.findAll(options);
