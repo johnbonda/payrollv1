@@ -26,6 +26,7 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
     } 
 
     var result = await app.model.Employee.findAll(options);
+    
 
     var array = [];
 
@@ -36,7 +37,7 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
             year: req.query.year,
         }
         let response = await app.model.Payslip.exists(options);
-        if(!response) array.push(obj.empID);
+        if(!response) array.push(obj);
     }
     return array;
 })
@@ -47,8 +48,7 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 // outputs: empid, name, designations
 app.route.get('/employees', async function(req){
     var options = {
-        //fields: ['empID', 'name', 'designation']
-        fields: ['empID']
+        fields: ['empID', 'name', 'designation']
     }
 
     var result = await app.model.Employee.findAll(options);
