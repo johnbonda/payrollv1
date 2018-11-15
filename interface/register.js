@@ -8,6 +8,8 @@ app.route.post('/payslip/issuedOrNot', async function(req){
         year: req.query.year
     }
 
+    console.log(JSON.stringify(obj));
+
     var result = await app.model.Payslip.exists(obj);
 
     return result;
