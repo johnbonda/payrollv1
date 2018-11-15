@@ -160,7 +160,7 @@ module.exports = {
         var response = await SwaggerCall.call('POST', '/api/v1/register/verifier', options);
 
         if(!response) return "No response from verifier call";
-        if(!response.isSuccess) return response;
+        if(!response.isSuccess) return JSON.stringify(response);
 
         var data = response.data;
 
@@ -174,7 +174,7 @@ module.exports = {
         var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
 
         if(!resp) return "No response from change role call";
-        if(!resp.isSuccess) return resp;
+        if(!resp.isSuccess) return JSON.stringify(resp);
 
         var creat = {
             email: email,
