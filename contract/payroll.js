@@ -142,6 +142,7 @@ module.exports = {
 
     registerEmployee: async function(countryCode, email, lastName, name, password, uuid, designation, bank, accountNumber, pan, salary, token){
         
+        console.log(email)
         var result = app.model.Employee.exists({
             email: email
         });
