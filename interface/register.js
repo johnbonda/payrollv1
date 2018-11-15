@@ -1,16 +1,14 @@
 var util = require("../utils/util.js");
 
 // returns payslip if exists, takes parameters empid, month , year
-app.route.get('/payslip/issuedOrNot', async function(req){ 
+app.route.post('/payslip/issuedOrNot', async function(req){ 
     var obj = {
-        empid: req.params.empid,
-        month: req.params.month,
-        year: req.params.year
+        empid: req.query.empid,
+        month: req.query.month,
+        year: req.query.year
     }
 
-    var result = app.model.Payslip.findOne({
-        condition: obj
-    });
+    var result = app.model.Payslip.exists(obj);
 
     if(result) return true;
     return false;
