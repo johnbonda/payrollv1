@@ -10,7 +10,8 @@ module.exports = {
                 bank: "dummybank" + i,
                 accountNumber: "dummyaccountnumber" + i,
                 pan: "dummypan" + i,
-                salary: "" + i
+                salary: "" + i,
+                walletAddress: "dummyAddress" + i
             })
         }
     }

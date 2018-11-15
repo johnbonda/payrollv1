@@ -1,7 +1,7 @@
 var util = require("../utils/util.js");
 
 // returns payslip if exists, takes parameters empid, month , year
-app.route.post('/payslip/issuedOrNot', async function(req){ 
+app.route.post('/payslip/issuedOrNot', async function(req, cb){ 
     var obj = {
         empid: req.query.empid,
         month: req.query.month,
@@ -17,6 +17,28 @@ app.route.post('/payslip/issuedOrNot', async function(req){
 
     if(result) return "true";
     return "false";
+})
+
+app.route.post('/payslip/pendingIssues', async function(req, cb){  // High intensive call, need to find an alternative
+   
+    var options = {
+        fields: ['empID']
+    } 
+
+    var result = await app.model.Employee.findAll(options);
+
+    var array = [];
+
+    for(obj in result){
+        let options = {
+            empid = obj.empID,
+            month = req.query.month,
+            year = req.query.year,
+        }
+        let response = await app.model.Payslip.exists(options);
+        if(response) array.push(obj.empID);
+    }
+    return array;
 })
 
 // For the employee table,
