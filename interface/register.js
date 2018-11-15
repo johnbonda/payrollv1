@@ -31,9 +31,9 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 
     for(obj in result){
         let options = {
-            empid = obj.empID,
-            month = req.query.month,
-            year = req.query.year,
+            empid: obj.empID,
+            month: req.query.month,
+            year: req.query.year,
         }
         let response = await app.model.Payslip.exists(options);
         if(response) array.push(obj.empID);
