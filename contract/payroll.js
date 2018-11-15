@@ -87,7 +87,7 @@ module.exports = {
             hash: base64hash,
             sign: base64sign,
             publickey: publickey,
-            timestamp: this.trs.timestamp
+            timestamp: new Date().getTime()
         });  
 
         
