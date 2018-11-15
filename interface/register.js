@@ -112,10 +112,13 @@ app.route.post('/verifypayslip', async function(req,cb){
 
     if(!util.Verify(hash, sign, publickey) /*&& result2.name === obj.employer*/) return "Wrong Employer Signature";
 
+    var myDate = new Date( Number(result.timestamp) *1000);
+    var timestamp = myDate.toGMTString()+" "+myDate.toLocaleString();
+
     var successResult = {
         signature: result.sign,
         publickey: result.publickey,
-        timestamp: result.timestamp,
+        timestamp: timestamp,
         isSuccess: true
     }
     return successResult;
