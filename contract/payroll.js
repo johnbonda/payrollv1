@@ -148,6 +148,8 @@ module.exports = {
         });
         if(result) return "Employee already registered";
 
+        console.log("Passed email already exists or not");
+
         var options = {
             countryCode: countryCode,
             email: email,
@@ -157,7 +159,10 @@ module.exports = {
             uuid: uuid
         }
 
+
         var response = await SwaggerCall.call('POST', '/api/v1/register/verifier', options);
+
+        console.log("Verifier Registration response is complete with response: " + JSON.stringify(response));
 
         if(!response) return "No response from verifier call";
         if(!response.isSuccess) return JSON.stringify(response);
@@ -171,7 +176,11 @@ module.exports = {
             userId: data.uid
         }
 
+        console.log("About to make change role call");
+
         var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
+
+        console.log("Change role call made with response: " + JSON.stringify(resp));
 
         if(!resp) return "No response from change role call";
         if(!resp.isSuccess) return JSON.stringify(resp);
@@ -188,6 +197,8 @@ module.exports = {
             walletAddress: wallet.address
         }
 
+        console.log("About to make a row");
+        
         app.sdb.create('employee', creat);
 
         mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
