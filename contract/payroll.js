@@ -160,8 +160,8 @@ module.exports = {
         }
 
         console.log("About to call registration call with parameters: " + JSON.stringify(options));
-        
-        var response = await SwaggerCall.call('POST', '/api/v1/register/verifier', options);
+
+        var response = await SwaggerCall.call('POST', '/api/v1/registration/verifier', options);
 
         console.log("Verifier Registration response is complete with response: " + JSON.stringify(response));
 
