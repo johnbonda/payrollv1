@@ -15,6 +15,11 @@ module.exports = {
             name: 'publickey',
             type: 'String',
             length: 255,
+        },
+        {
+            name: 'timestamp',
+            type: 'String',
+            length: 255
         }
     ]
 }
