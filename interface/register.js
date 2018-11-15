@@ -15,7 +15,8 @@ app.route.post('/payslip/issuedOrNot', async function(req){
 
     console.log("The result is: " + result);
 
-    return result;
+    if(result) return true;
+    return false;
 })
 
 // For the employee table,
