@@ -6,11 +6,13 @@ module.exports = async function () {
   app.registerContract(1003, 'payroll.issuePaySlip')
   app.registerContract(1004, 'payroll.verify')
   app.registerContract(1006, 'temp.insertIntoEmployees')
+  app.registerContract(1007, 'payroll.registerEmployee')
   //app.registerContract(1005, 'payroll.pay')
   //app.registerFee(1005, '0', 'BEL')
   app.registerFee(1003, '0', 'BEL')
   app.registerFee(1004, '0', 'BEL')
   app.registerFee(1006, '0', 'BEL')
+  app.registerFee(1007, '0', 'BEL')
 
 
   app.events.on('newBlock', (block) => {

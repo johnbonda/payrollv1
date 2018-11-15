@@ -41,12 +41,12 @@ module.exports = {
             name: 'salary',
             type: 'String',
             length: 255,
-        }
-        // {
-        //     name: 'walletAddress',
-        //     type: 'String',
-        //     length: 255,
-        // },
+        },
+        {
+            name: 'walletAddress',
+            type: 'String',
+            length: 255,
+        },
         // {
                 //     name: 'token',
                 //     type: 'String',

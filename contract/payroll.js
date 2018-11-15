@@ -2,6 +2,8 @@ var ByteBuffer = require("bytebuffer");
 var util = require("../utils/util.js");
 var mail = require("../utils/sendmail");
 var api = require("../utils/api");
+var SwaggerCall = require("../utils/SwaggerCall");
+var TokenCall = require("../utils/TokenCall");
 
 module.exports = {
 
@@ -137,6 +139,61 @@ module.exports = {
         if(!util.Verify(hash, sign, publickey) /*&& result2.name === obj.employer*/) return "Wrong Employer Signature";
 
     },
+
+    registerEmployee: async function(countryCode, email, lastName, name, password, uuid, designation, bank, accountNumber, pan, salary, token){
+        
+        var result = app.model.Employee.findOne({
+            condition:{
+                email: email
+            }
+        });
+        if(result) return "Employee already registered";
+
+        var options = {
+            countryCode: countryCode,
+            email: email,
+            lastName: lastName,
+            name: name,
+            password: password,
+            uuid: uuid
+        }
+
+        var response = await SwaggerCall.call('POST', '/api/v1/register/verifier', options);
+
+        if(!response) return "No response";
+        if(!response.isSuccess) return response;
+
+        var data = response.data;
+
+        var wallet = JSON.parse(data.wallet);
+
+        var opt = {
+            roleId: '3',
+            userId: data.uid
+        }
+
+        var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
+
+        if(!resp) return "No response";
+        if(!resp.isSuccess) return resp;
+
+        var creat = {
+            email: email,
+            empID: uuid,
+            name: name + lastName,
+            designation: designation,
+            bank: bank,
+            accountNumber: accountNumber,
+            pan: pan,
+            salary: salary,
+            walletAddress: wallet.address
+        }
+
+        app.sdb.create('employee', creat);
+
+        mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
+
+    }
 
     // pay: async function(address, currency, amount) {
     //     var result = app.balances.get(address, 'BEL');
