@@ -26,13 +26,13 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
     } 
 
     var result = await app.model.Employee.findAll(options);
-    
+
 
     var array = [];
 
     for(obj in result){
         let options = {
-            empid: obj.empID,
+            empid: obj,
             month: req.query.month,
             year: req.query.year,
         }
