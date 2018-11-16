@@ -1,4 +1,6 @@
 var util = require("../utils/util.js");
+var config = require("../config.json");
+var SwaggerCall = require("../utils/SwaggerCall");
 
 // returns payslip if exists, takes parameters empid, month , year
 app.route.post('/payslip/issuedOrNot', async function(req, cb){ 
@@ -113,7 +115,7 @@ app.route.post('/verifypayslip', async function(req,cb){
     if(!util.Verify(hash, sign, publickey) /*&& result2.name === obj.employer*/) return "Wrong Employer Signature";
 
     var myDate = new Date( Number(result.timestamp));
-    var timestamp = myDate.toGMTString()+" "+myDate.toLocaleString();
+    var timestamp = myDate.toGMTString();
 
     var successResult = {
         signature: result.sign,
@@ -122,5 +124,21 @@ app.route.post('/verifypayslip', async function(req,cb){
         isSuccess: true
     }
     return successResult;
+
+})
+
+app.route.post('/getToken', async function(req, cb){
+    var options = {
+        email: config.token.email,
+        password: config.token.password,
+        totp: config.token.totp
+    }
+
+    var response = await SwaggerCall.call('POST','/api/v1/login', options);
+
+    if(!response) return "No response from login call";
+    if(!response.isSuccess) return JSON.stringify(response);
+
+    return  response.data.token;
 
 })

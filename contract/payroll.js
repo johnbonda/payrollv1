@@ -155,7 +155,7 @@ module.exports = {
             var text = "";
             var caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             var smalls = "abcdefghijklmnopqrstuvwxyz";
-            var symbols = "!@#$%^&*()_+-=[]{}:;?/>.<,";
+            var symbols = "!@#$%^&*";
             var numbers = "1234567890";
           
             for (var i = 0; i < 3; i++){

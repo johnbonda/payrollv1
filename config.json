@@ -17,5 +17,10 @@
     },
     "tls": { "rejectUnauthorized": false},
     "debug":true
+  },
+  "token": {
+    "email": "john.bonda7@gmail.com",
+    "password": "Windlm@946356",
+    "totp": "string"
   }
 }
