@@ -141,7 +141,7 @@ module.exports = {
 
     },
 
-    registerEmployee: async function(countryCode, email, lastName, name, password, uuid, designation, bank, accountNumber, pan, salary, token){
+    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary, token){
         
         console.log(email)
         var result = await app.model.Employee.exists({
@@ -150,6 +150,19 @@ module.exports = {
         if(result) return "Employee already registered";
 
         console.log("Passed email already exists or not");
+
+        function makeid() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+          
+            for (var i = 0; i < 5; i++)
+              text += possible.charAt(Math.floor(Math.random() * possible.length));
+          
+            return text;
+        }
+
+        var password = makeid();        
+
 
         var options = {
             countryCode: countryCode,
@@ -172,6 +185,7 @@ module.exports = {
         var data = response.data;
 
         var wallet = JSON.parse(data.wallet);
+        wallet.loginPassword = password;
 
         var opt = {
             roleId: '3',
