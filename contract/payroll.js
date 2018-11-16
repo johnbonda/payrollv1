@@ -151,17 +151,23 @@ module.exports = {
 
         console.log("Passed email already exists or not");
 
-        function makeid() {
+        function makePassword() {
             var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var smalls = "abcdefghijklmnopqrstuvwxyz";
+            var symbols = "!@#$%^&*()_+-=[]{}:;?/>.<,";
+            var numbers = "1234567890";
           
-            for (var i = 0; i < 5; i++)
-              text += possible.charAt(Math.floor(Math.random() * possible.length));
-          
+            for (var i = 0; i < 3; i++){
+              text += caps.charAt(Math.floor(Math.random() * caps.length));
+              text += smalls.charAt(Math.floor(Math.random() * smalls.length));
+              text += symbols.charAt(Math.floor(Math.random() * symbols.length));
+              text += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
             return text;
         }
 
-        var password = makeid();        
+        var password = makePassword();        
 
 
         var options = {
