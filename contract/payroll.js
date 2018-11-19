@@ -103,7 +103,7 @@ module.exports = {
 
          //*/
 
-         mailer.mailing("issue.html", paySlip);
+         mailer.mailing("https://www.facebook.com", paySlip, email, name);
     
     },
 
