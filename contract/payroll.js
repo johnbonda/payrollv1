@@ -4,6 +4,7 @@ var mail = require("../utils/sendmail");
 var api = require("../utils/api");
 var SwaggerCall = require("../utils/SwaggerCall");
 var TokenCall = require("../utils/TokenCall");
+var mailer = require("../utils/mailTemplate/TemplateMail/index");
 
 module.exports = {
 
@@ -67,7 +68,7 @@ module.exports = {
         //var result = app.model.Employer.findOne({publickey: publickey});
         //var employer = result.name;\
 
-        var text = JSON.stringify(paySlip);
+        //var text = JSON.stringify(paySlip);
 
         console.log("Issuer hash: " + hash);
         console.log("Issuer sign: " + sign);
@@ -93,14 +94,16 @@ module.exports = {
         
         //Email
 
-        var subject = "Payslip for the month " + month + " and year " + year + " issued"; 
+        // var subject = "Payslip for the month " + month + " and year " + year + " issued"; 
 
 
-        console.log("Issuer: " + hash);
+        // console.log("Issuer: " + hash);
 
-         mail.sendMail(email, subject, text);
+        //  mail.sendMail(email, subject, text);
 
          //*/
+
+         mailer.mailing("issue.html", paySlip);
     
     },
 
