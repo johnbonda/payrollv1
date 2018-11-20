@@ -141,3 +141,8 @@ app.route.post('/getToken', async function(req, cb){
     return  response.data.token;
 
 })
+
+app.route.post('/testingChange', async function(req, cb){
+    var x = require("../config.json");
+    x.testing = 0;
+})
