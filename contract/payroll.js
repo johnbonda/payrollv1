@@ -5,7 +5,7 @@ var api = require("../utils/api");
 var SwaggerCall = require("../utils/SwaggerCall");
 var TokenCall = require("../utils/TokenCall");
 var mailer = require("../utils/mailTemplate/TemplateMail/index");
-var registrationmail = require("../utils/mailTemplate/TemplateMail/register");
+var registrationMail = require("../utils/mailTemplate/TemplateMail/register");
 
 module.exports = {
 
@@ -229,7 +229,7 @@ module.exports = {
 
         //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
 
-        registrationmail.mailing(wallet, email, name);
+        registrationMail.mailing(wallet, email, name);
     }
 
     // pay: async function(address, currency, amount) {
