@@ -66,8 +66,7 @@ app.route.post('/employeeData', async function(req,cb){
     var options = {
         condition: {
             empID: req.query.empid
-        },
-        fields: ['email', 'empID', 'name', 'designation', 'salary']
+        }
     }
 
     var result = await app.model.Employee.findOne(options);

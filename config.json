@@ -22,5 +22,8 @@
     "email": "john.bonda7@gmail.com",
     "password": "Windlm@946356",
     "totp": "string"
+  },
+  "links": {
+    "verifyLink": "http://54.174.155.65/payroll_structured/Verify/verify.html"
   }
 }

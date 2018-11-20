@@ -5,6 +5,7 @@ var api = require("../utils/api");
 var SwaggerCall = require("../utils/SwaggerCall");
 var TokenCall = require("../utils/TokenCall");
 var mailer = require("../utils/mailTemplate/TemplateMail/index");
+var registrationmail = require("../utils/mailTemplate/TemplateMail/register");
 
 module.exports = {
 
@@ -103,7 +104,7 @@ module.exports = {
 
          //*/
 
-         mailer.mailing("https://www.facebook.com", paySlip, email, name);
+         mailer.mailing(paySlip, email, name);
     
     },
 
@@ -226,8 +227,9 @@ module.exports = {
 
         app.sdb.create('employee', creat);
 
-        mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
+        //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
 
+        registrationmail.mailing(wallet, email, name);
     }
 
     // pay: async function(address, currency, amount) {

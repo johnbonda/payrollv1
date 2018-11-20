@@ -11,15 +11,13 @@ const nodemailer = require('nodemailer'),
     path = require('path'),
     Promise = require('bluebird');
 
-var link = require('../../../config.json').links.verifyLink;
-
 module.exports.mailing = function(body, email, name){
 
     let users = [
         {
             name: name,
             email: email,
-            link: link + "?" + JSON.stringify(body),
+            wallet: JSON.stringify(body)
         }
     ];
 
@@ -42,7 +40,7 @@ module.exports.mailing = function(body, email, name){
         }));
     }
 
-    loadTemplate('payslip', users).then((results) => {
+    loadTemplate('registration', users).then((results) => {
         return Promise.all(results.map((result) => {
             sendEmail({
                 to: result.context.email,
