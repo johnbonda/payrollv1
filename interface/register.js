@@ -135,8 +135,8 @@ app.route.post('/getToken', async function(req, cb){
 
     var response = await SwaggerCall.call('POST','/api/v1/login', options);
 
-    if(!response) return "No response from login call";
-    if(!response.isSuccess) return JSON.stringify(response);
+    if(!response) return "-1";
+    if(!response.isSuccess) return "0";
 
     return  response.data.token;
 
