@@ -152,6 +152,8 @@ module.exports = {
         var token = await register.getToken(0,0);
 
         console.log(token);
+
+        if(token === "0" || token ==="-1") return "Error in retrieving token";
         
         console.log(email)
         var result = await app.model.Employee.exists({
