@@ -6,6 +6,7 @@ var SwaggerCall = require("../utils/SwaggerCall");
 var TokenCall = require("../utils/TokenCall");
 var mailer = require("../utils/mailTemplate/TemplateMail/index");
 var registrationMail = require("../utils/mailTemplate/TemplateMail/register");
+var register = require("../interface/register");
 
 module.exports = {
 
@@ -145,7 +146,12 @@ module.exports = {
 
     },
 
-    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary, token){
+    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
+
+
+        var token = await register.getToken(0,0);
+
+        console.log(token);
         
         console.log(email)
         var result = await app.model.Employee.exists({

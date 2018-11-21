@@ -126,7 +126,7 @@ app.route.post('/verifypayslip', async function(req,cb){
 
 })
 
-app.route.post('/getToken', async function(req, cb){
+module.exports.getToken = async function(req, cb){
     var options = {
         email: config.token.email,
         password: config.token.password,
@@ -140,7 +140,9 @@ app.route.post('/getToken', async function(req, cb){
 
     return  response.data.token;
 
-})
+}
+
+app.route.post('/getToken', module.exports.getToken)
 
 app.route.post('/testingChange', async function(req, cb){
     var x = require("../config.json");
