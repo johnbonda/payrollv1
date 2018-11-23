@@ -27,7 +27,7 @@ module.exports = {
 
         var result = await app.model.Payslip.findOne(options);
 
-        if(result) return "Payslip already issued";
+        if(result) return "DUPLICATE";
 
         console.log("***********************Passed duplicate check************************")
 

@@ -7,9 +7,9 @@ module.exports = {
             length: 100,
         },
         {
-            name: 'publickey',
+            name: 'email',
             type: 'String',
-            length: 100,
+            length: 100
         },
     ]
 }

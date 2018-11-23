@@ -6,6 +6,7 @@ var z_schema = require('../utils/zschema-express.js');
 var BKVSCall = require('../utils/BKVSCall.js');
 var SwaggerCall = require('../utils/SwaggerCall.js');
 var request = require('request');
+var auth = require('./authController');
 
 // Return Payslip with empname
 app.route.get('/payslip/:empname',  async function (req) {
@@ -95,7 +96,37 @@ app.route.post('/userlogin', async function (req, cb) {
         password: req.query.password
     };
     var response = await BKVSCall.call('POST', `/api/v1/login`, ac_params);// Call: http://54.254.174.74:8080
+
+    if (response.isSuccess === true){
+        var user = await app.model.Employer.findOne({
+            condition:{
+                email: email
+            }
+        });
+
+        if(!user) return "-2" // User not registered in Dapp
+
+        var tokenSearch = await app.model.Session.exists({
+            email: user.email
+        });
+
+        var token = auth.getJwt(user.email);
+
+        if(tokenSearch) {
+            app.sdb.update('session', {jwtToken: token}, {email: user.email});
+        }
+        else{
+            app.sdb.create('session', {
+                email: user.email,
+                jwtToken: token
+            })
+        }
+
+        response.dappToken = token;
+    }
+    
     return response;
+
  });//BKVS Signup
  app.route.post('/usersignup', async function (req, cb) {
     var params={
@@ -106,9 +137,15 @@ app.route.post('/userlogin', async function (req, cb) {
         password:req.query.password,
         type:req.query.type
     }
+
     var response = await BKVSCall.call('POST', `/api/v1/signup`, params);// Call: http://54.254.174.74:8080
     if(response.isSuccess===true)
     {
+        app.sdb.create('employer', {
+            name: name,
+            email: email
+        });
+
         return "success";
     }
     else

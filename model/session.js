@@ -1,15 +1,15 @@
 module.exports = {
-    name: 'otps',
+    name: 'session',
     fields: [
-        {
-            name: 'otpnumber',
-            type: 'String',
-            length: 255
-        },
         {
             name: 'email',
             type: 'String',
             length: 255
-        }
+        },
+        {
+            name: 'jwtToken',
+            type: 'String',
+            length: 255
+        },
     ]
 }

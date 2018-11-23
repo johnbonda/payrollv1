@@ -26,5 +26,5 @@
   "links": {
     "verifyLink": "http://54.174.155.65/payroll_structured/Views/Verify/verify.html"
   },
-  "testing": 1
+  "secret": "Implementing JWT tokens"
 }

@@ -126,7 +126,7 @@ app.route.post('/verifypayslip', async function(req,cb){
 
 })
 
-module.exports.getToken = async function(req, cb){
+module.exports.getToken = async function(req, res, cb){
     var options = {
         email: config.token.email,
         password: config.token.password,
@@ -137,6 +137,8 @@ module.exports.getToken = async function(req, cb){
 
     if(!response) return "-1";
     if(!response.isSuccess) return "0";
+
+    console.log(JSON.stringify(req));
 
     return  response.data.token;
 
