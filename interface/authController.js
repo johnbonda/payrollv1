@@ -9,7 +9,7 @@ module.exports.getJwt = function(email){
     return token;
 }
 
-module.exports.checkSession = async function(token){
+module.exports.checkSession = function(token){
     app.logger.log(token);
     console.log(token);
     var result = await app.model.Session.exists({
