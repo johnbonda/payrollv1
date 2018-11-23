@@ -124,6 +124,8 @@ app.route.post('/userlogin', async function (req, cb) {
         type:req.query.type
     }
 
+    app.sdb.lock('payroll.usersignup@'+req.query.emailid);
+
     var response = await BKVSCall.call('POST', `/api/v1/signup`, params);// Call: http://54.254.174.74:8080
     if(response.isSuccess===true || response.status === "CONFLICT")
     {
@@ -132,7 +134,7 @@ app.route.post('/userlogin', async function (req, cb) {
         });
 
         if(user) return "-1"; // User already registered
-        
+
         app.sdb.create('employer', {
             name: req.query.name,
             email: req.query.emailid
