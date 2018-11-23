@@ -71,7 +71,7 @@ app.route.post('/user/exist', async function(req, cb){
     }
 
     if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    var result = auth.checkSession(req.query.dappToken);
+    var result = await auth.checkSession(req.query.dappToken);
     console.log("In exist: " + result);
     if(!result) return "Unauthorized Token";
 
