@@ -8,3 +8,10 @@ module.exports.getJwt = function(email){
       });
     return token;
 }
+
+module.exports.checkSession = async function(token){
+    var result = await app.model.Session.exists({
+        jwtToken: token
+    })
+    return result;
+}
