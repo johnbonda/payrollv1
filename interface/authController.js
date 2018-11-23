@@ -10,8 +10,10 @@ module.exports.getJwt = function(email){
 }
 
 module.exports.checkSession = async function(token){
+    app.logger.log(token);
     var result = await app.model.Session.exists({
         jwtToken: token
     })
+    app.logger.log(result);
     return result;
 }
