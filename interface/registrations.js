@@ -100,7 +100,7 @@ app.route.post('/userlogin', async function (req, cb) {
     if (response.isSuccess === true){
         var user = await app.model.Employer.findOne({
             condition:{
-                email: email
+                email: req.query.email
             }
         });
 
