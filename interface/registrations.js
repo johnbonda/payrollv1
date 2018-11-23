@@ -142,8 +142,8 @@ app.route.post('/userlogin', async function (req, cb) {
     if(response.isSuccess===true)
     {
         app.sdb.create('employer', {
-            name: name,
-            email: email
+            name: req.query.name,
+            email: req.query.emailid
         });
 
         return "success";
