@@ -71,9 +71,7 @@ app.route.post('/user/exist', async function(req, cb){
     }
 
     if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    var result = await auth.checkSession(req.query.dappToken);
-    console.log("In exist: " + result);
-    if(!result) return "Unauthorized Token";
+    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
 
     var response = await SwaggerCall.call('GET', '/api/v1/user/exist?email=' + param.email, param);
     return response;
