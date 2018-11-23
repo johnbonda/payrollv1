@@ -127,6 +127,12 @@ app.route.post('/userlogin', async function (req, cb) {
     var response = await BKVSCall.call('POST', `/api/v1/signup`, params);// Call: http://54.254.174.74:8080
     if(response.isSuccess===true || response.status === "CONFLICT")
     {
+        var user = await app.model.Employer.exists({
+            email: req.query.emailid
+        });
+
+        if(user) return "-1"; // User already registered
+        
         app.sdb.create('employer', {
             name: req.query.name,
             email: req.query.emailid
