@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'session',
+    name: 'sessions',
     fields: [
         {
             name: 'email',
