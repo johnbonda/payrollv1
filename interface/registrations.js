@@ -75,20 +75,6 @@ app.route.post('/user/exist', async function(req, cb){
     
 });
 
-// Get Wallet Address
-app.route.post('/accounts/details', async function(req,cb) {
-     var validateSchema = await z_schema.validate(req.query, schema.open);
-
-     var ac_params = {
-        secret: req.query.secret,
-        countryCode:req.query.countryCode
-     };
-
-     var response = await httpCall.call('POST','/api/accounts/open',ac_params); // Call:  http://node1.belrium.io
-     res.account.address = res.account.address.concat(req.query.countryCode);
-     return res;
-});
-
 //BKVS login
 app.route.post('/userlogin', async function (req, cb) {
     var ac_params = {
@@ -139,7 +125,7 @@ app.route.post('/userlogin', async function (req, cb) {
     }
 
     var response = await BKVSCall.call('POST', `/api/v1/signup`, params);// Call: http://54.254.174.74:8080
-    if(response.isSuccess===true)
+    if(response.isSuccess===true || response.status === "CONFLICT")
     {
         app.sdb.create('employer', {
             name: req.query.name,
