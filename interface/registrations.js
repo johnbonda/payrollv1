@@ -81,6 +81,10 @@ app.route.post('/userlogin', async function (req, cb) {
         email: req.query.email,
         password: req.query.password
     };
+
+    app.sdb.lock('payroll.userlogin@'+req.query.email);
+
+
     var response = await BKVSCall.call('POST', `/api/v1/login`, ac_params);// Call: http://54.254.174.74:8080
 
     if (response.isSuccess === true){
