@@ -150,7 +150,7 @@ app.route.post('/userlogin', async function (req, cb) {
     }
     else
     {
-        return reponse;
+        return response;
     }
 
  });//BKVS Signup
