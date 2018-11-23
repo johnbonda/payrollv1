@@ -70,7 +70,7 @@ app.route.post('/user/exist', async function(req, cb){
         email: req.query.email
     }
 
-    if(req.query.dappToken) return "Need Dapp Token, please Login";
+    if(!req.query.dappToken) return "Need Dapp Token, please Login";
     if(!auth.checkSession(req.query.dappToken)) return "Unauthorized Token";
 
     var response = await SwaggerCall.call('GET', '/api/v1/user/exist?email=' + param.email, param);
