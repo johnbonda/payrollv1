@@ -10,6 +10,9 @@ app.route.post('/payslip/issuedOrNot', async function(req, cb){
         year: req.query.year
     }
 
+    if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+
     console.log("The query is: " + JSON.stringify(obj));
 
 
@@ -22,6 +25,9 @@ app.route.post('/payslip/issuedOrNot', async function(req, cb){
 })
 
 app.route.post('/payslip/pendingIssues', async function(req, cb){  // High intensive call, need to find an alternative
+
+    if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
    
     var options = {
         fields: ['empID','name','designation']
@@ -48,7 +54,11 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 // GET call
 // inputs: No inputs
 // outputs: empid, name, designations
-app.route.get('/employees', async function(req){
+app.route.post('/employees', async function(req, cb){
+
+    if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+
     var options = {
         fields: ['empID', 'name', 'designation']
     }
@@ -63,6 +73,10 @@ app.route.get('/employees', async function(req){
 // inputs: empid
 // outputs: email, empid, name, designation, actualsalary
 app.route.post('/employeeData', async function(req,cb){
+
+    if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+
     var options = {
         condition: {
             empID: req.query.empid
@@ -144,7 +158,3 @@ module.exports.getToken = async function(req, cb){
 
 app.route.post('/getToken', module.exports.getToken)
 
-app.route.post('/testingChange', async function(req, cb){
-    var x = require("../config.json");
-    x.testing = 0;
-})

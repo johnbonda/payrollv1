@@ -8,61 +8,13 @@ var SwaggerCall = require('../utils/SwaggerCall.js');
 var request = require('request');
 var auth = require('./authController');
 
-// Return Payslip with empname
-app.route.get('/payslip/:empname',  async function (req) {
-    let result = await app.model.Payslip.findOne({
-        condition: { empname: req.params.empname }
-    })
-    return result
-  })
-
-
-// Get Account Details of User
-app.route.post('/wallet/login', async function (req, cb) {
-    var validateSchema = await z_schema.validate(req.query, schema.open);
-
-
-    var ac_params = {
-        password: req.query.password,
-        email: req.query.email
-    };
-
-    var response = await httpCall.call('POST', `/api/v1/login`, ac_params);// Call: http://54.254.174.74:8080
-
-    if(response && !response.success) {
-        return response;
-    }
-
-    var params = {
-        secret: req.query.secret,
-        countryCode:req.query.countryCode
-    };
-    var res = await httpCall.call('POST', `/api/accounts/open`, params); // Call:  http://node1.belrium.io
-    res.account.address = res.account.address.concat(req.query.countryCode);
-    return res;
-});
-
-
-// Employer Registration on BKVS 
-app.route.post('/wallet/creation', async function(req,cb) {
-    var validateSchema = await z_schema.validate(req.query, schema.open);
-
-    var ac_params = {
-        countryId:req.query.countryId,
-        countryCode:req.query.countryCode,
-        email:req.query.email,
-        name:req.query.name,
-        password:req.query.password,
-        type:req.query.type
-    };
-    
-    var response = await httpCall.call('POST','/api/v1/signup',ac_params); // Call: http://54.254.174.74:8080
-
-    if(response && !response.success){
-        return response;
-    }
-
-});
+// // Return Payslip with empname
+// app.route.get('/payslip/:empname',  async function (req) {
+//     let result = await app.model.Payslip.findOne({
+//         condition: { empname: req.params.empname }
+//     })
+//     return result
+//   })
 
 app.route.post('/user/exist', async function(req, cb){
 
@@ -70,8 +22,8 @@ app.route.post('/user/exist', async function(req, cb){
         email: req.query.email
     }
 
-    if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+    // if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    // if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
 
     var response = await SwaggerCall.call('GET', '/api/v1/user/exist?email=' + param.email, param);
     return response;
