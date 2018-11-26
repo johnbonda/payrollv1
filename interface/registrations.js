@@ -42,33 +42,33 @@ app.route.post('/userlogin', async function (req, cb) {
 
     var response = await BKVSCall.call('POST', `/api/v1/login`, ac_params);// Call: http://54.254.174.74:8080
 
-    if (response.isSuccess === true){
-        var user = await app.model.Employer.findOne({
-            condition:{
-                email: req.query.email
-            }
-        });
+    // if (response.isSuccess === true){
+    //     var user = await app.model.Employer.findOne({
+    //         condition:{
+    //             email: req.query.email
+    //         }
+    //     });
 
-        if(!user) return "-2" // User not registered in Dapp
+    //     if(!user) return "-2" // User not registered in Dapp
 
-        var tokenSearch = await app.model.Session.exists({
-            email: user.email
-        });
+    //     var tokenSearch = await app.model.Session.exists({
+    //         email: user.email
+    //     });
 
-        var token = auth.getJwt(user.email);
+    //     var token = auth.getJwt(user.email);
 
-        if(tokenSearch) {
-            app.sdb.update('session', {jwtToken: token}, {email: user.email});
-        }
-        else{
-            app.sdb.create('session', {
-                email: user.email,
-                jwtToken: token
-            })
-        }
+    //     if(tokenSearch) {
+    //         app.sdb.update('session', {jwtToken: token}, {email: user.email});
+    //     }
+    //     else{
+    //         app.sdb.create('session', {
+    //             email: user.email,
+    //             jwtToken: token
+    //         })
+    //     }
 
-        response.dappToken = token;
-    }
+    //     response.dappToken = token;
+    // }
     
     return response;
 
@@ -86,18 +86,20 @@ app.route.post('/userlogin', async function (req, cb) {
     app.sdb.lock('payroll.usersignup@'+req.query.emailid);
 
     var response = await BKVSCall.call('POST', `/api/v1/signup`, params);// Call: http://54.254.174.74:8080
-    if(response.isSuccess===true || response.status === "CONFLICT")
+    // if(response.isSuccess===true || response.status === "CONFLICT")
+
+    if(response.isSuccess===true)
     {
-        var user = await app.model.Employer.exists({
-            email: req.query.emailid
-        });
+        // var user = await app.model.Employer.exists({
+        //     email: req.query.emailid
+        // });
 
-        if(user) return "-1"; // User already registered
+        // if(user) return "-1"; // User already registered
 
-        app.sdb.create('employer', {
-            name: req.query.name,
-            email: req.query.emailid
-        });
+        // app.sdb.create('employer', {
+        //     name: req.query.name,
+        //     email: req.query.emailid
+        // });
 
         return "success";
     }

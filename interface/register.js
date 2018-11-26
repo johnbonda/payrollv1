@@ -10,8 +10,8 @@ app.route.post('/payslip/issuedOrNot', async function(req, cb){
         year: req.query.year
     }
 
-    if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+    // if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    // if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
 
     console.log("The query is: " + JSON.stringify(obj));
 
@@ -26,8 +26,8 @@ app.route.post('/payslip/issuedOrNot', async function(req, cb){
 
 app.route.post('/payslip/pendingIssues', async function(req, cb){  // High intensive call, need to find an alternative
 
-    if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+    // if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    // if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
    
     var options = {
         fields: ['empID','name','designation']
@@ -56,8 +56,8 @@ app.route.post('/payslip/pendingIssues', async function(req, cb){  // High inten
 // outputs: empid, name, designations
 app.route.post('/employees', async function(req, cb){
 
-    if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+    // if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    // if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
 
     var options = {
         fields: ['empID', 'name', 'designation']
@@ -74,8 +74,8 @@ app.route.post('/employees', async function(req, cb){
 // outputs: email, empid, name, designation, actualsalary
 app.route.post('/employeeData', async function(req,cb){
 
-    if(!req.query.dappToken) return "Need Dapp Token, please Login";
-    if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
+    // if(!req.query.dappToken) return "Need Dapp Token, please Login";
+    // if(! (await auth.checkSession(req.query.dappToken))) return "Unauthorized Token";
 
     var options = {
         condition: {
