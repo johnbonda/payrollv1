@@ -149,7 +149,7 @@ module.exports = {
 
     },
 
-    registerEmployeeWorkaround: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
+    registernew: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
 
 
         var token = await register.getToken(0,0);
@@ -253,7 +253,7 @@ module.exports = {
         var response = await registrations.exists(request, 0);
 
         if(response.isSuccess == false) 
-            await this.registerEmployeeWorkaround(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
+            await this.registernew(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
         else{
             var token = auth.getJwt(email);
             var creat = {
