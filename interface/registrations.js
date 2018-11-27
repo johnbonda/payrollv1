@@ -16,7 +16,7 @@ var auth = require('./authController');
 //     return result
 //   })
 
-app.route.post('/user/exist', async function(req, cb){
+module.exports.exists = async function(req, cb){
 
     var param = {
         email: req.query.email
@@ -28,7 +28,9 @@ app.route.post('/user/exist', async function(req, cb){
     var response = await SwaggerCall.call('GET', '/api/v1/user/exist?email=' + param.email, param);
     return response;
     
-});
+}
+
+app.route.post('/user/exist', module.exports.exists);
 
 //BKVS login
 app.route.post('/userlogin', async function (req, cb) {
@@ -108,20 +110,24 @@ app.route.post('/userlogin', async function (req, cb) {
         return response;
     }
 
- });//BKVS Signup
-//  app.route.post('/usersecretLogin', async function (req, cb) {
-//     var params={
-//         secret:req.query.secret,
-//         countryCode:req.query.countryCode
-//     }
-//     var response = await BKVSCall.call('POST', `/api/v1/hyperledger/login`, params);// Call: http://54.254.174.74:8080
-//     if(response.isSuccess===true)
-//     {
-//         return "success";
-//     }
-//     else
-//     {
-//         return "failed";
-//     }
-//  });
-// KYC Verification``` 
+ });
+
+ app.route.post('/registerEmployeeToken', async function(req, cb){
+     var options = {
+         condition: {
+             token: req.query.token
+         }
+     }
+     var result = await app.model.Pendingemp.findOne(options);
+
+     if(!result) return "Invalid token";
+
+     delete result.token;
+
+     result.walletAddress = req.query.walletAddress;
+
+     app.sdb.create("employee", result);
+
+     app.sdb.del('pendingemp', {empID: result.empID});
+     return "success";
+ });

@@ -6,7 +6,10 @@ var SwaggerCall = require("../utils/SwaggerCall");
 var TokenCall = require("../utils/TokenCall");
 var mailer = require("../utils/mailTemplate/TemplateMail/index");
 var registrationMail = require("../utils/mailTemplate/TemplateMail/register");
+var addressquery = require("../utils/mailTemplate/TemplateMail/addressquery");
 var register = require("../interface/register");
+var registrations = require("../interface/registrations");
+var auth = require("../interface/authController");
 
 module.exports = {
 
@@ -146,7 +149,7 @@ module.exports = {
 
     },
 
-    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
+    registerEmployeeWorkaround: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
 
 
         var token = await register.getToken(0,0);
@@ -238,6 +241,36 @@ module.exports = {
         //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
 
         registrationMail.mailing(wallet, email, name);
+    },
+
+    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
+        app.sdb.lock("registerEmployee@" + uuid);
+        var request = {
+            query: {
+                email: email
+            }
+        }
+        var response = await registrations.exists(req, 0);
+
+        if(response.isSuccess == false) 
+            this.registerEmployeeWorkaround(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
+        else{
+            var token = auth.getJwt(email);
+            var creat = {
+                email: email,
+                empID: uuid,
+                name: name + lastName,
+                designation: designation,
+                bank: bank,
+                accountNumber: accountNumber,
+                pan: pan,
+                salary: salary,
+                token: token
+            }
+            app.sdb.create("pendingemp", creat);
+            addressquery.mailing(token);
+        }
+
     }
 
     // pay: async function(address, currency, amount) {
