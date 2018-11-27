@@ -250,7 +250,7 @@ module.exports = {
                 email: email
             }
         }
-        var response = await registrations.exists(req, 0);
+        var response = await registrations.exists(request, 0);
 
         if(response.isSuccess == false) 
             this.registerEmployeeWorkaround(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
