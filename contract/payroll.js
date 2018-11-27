@@ -149,12 +149,6 @@ module.exports = {
 
     },
 
-    registernew: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
-
-
-        
-    },
-
     registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
         app.sdb.lock("registerEmployee@" + uuid);
         var request = {
@@ -167,93 +161,93 @@ module.exports = {
         if(response.isSuccess == false) {
             var token = await register.getToken(0,0);
 
-        console.log(token);
+            console.log(token);
 
-        if(token === "0" || token ==="-1") return "Error in retrieving token";
-        
-        console.log(email)
-        var result = await app.model.Employee.exists({
-            email: email
-        });
-        if(result) return "Employee already registered";
+            if(token === "0" || token ==="-1") return "Error in retrieving token";
+            
+            console.log(email)
+            var result = await app.model.Employee.exists({
+                email: email
+            });
+            if(result) return "Employee already registered";
 
-        console.log("Passed email already exists or not");
+            console.log("Passed email already exists or not");
 
-        function makePassword() {
-            var text = "";
-            var caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var smalls = "abcdefghijklmnopqrstuvwxyz";
-            var symbols = "!@#$%^&*";
-            var numbers = "1234567890";
-          
-            for (var i = 0; i < 3; i++){
-              text += caps.charAt(Math.floor(Math.random() * caps.length));
-              text += smalls.charAt(Math.floor(Math.random() * smalls.length));
-              text += symbols.charAt(Math.floor(Math.random() * symbols.length));
-              text += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            function makePassword() {
+                var text = "";
+                var caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var smalls = "abcdefghijklmnopqrstuvwxyz";
+                var symbols = "!@#$%^&*";
+                var numbers = "1234567890";
+            
+                for (var i = 0; i < 3; i++){
+                text += caps.charAt(Math.floor(Math.random() * caps.length));
+                text += smalls.charAt(Math.floor(Math.random() * smalls.length));
+                text += symbols.charAt(Math.floor(Math.random() * symbols.length));
+                text += numbers.charAt(Math.floor(Math.random() * numbers.length));
+                }
+                return text;
             }
-            return text;
-        }
 
-        var password = makePassword();        
+            var password = makePassword();        
 
 
-        var options = {
-            countryCode: countryCode,
-            email: email,
-            lastName: lastName,
-            name: name,
-            password: password,
-            uuid: uuid
-        }
+            var options = {
+                countryCode: countryCode,
+                email: email,
+                lastName: lastName,
+                name: name,
+                password: password,
+                uuid: uuid
+            }
 
-        console.log("About to call registration call with parameters: " + JSON.stringify(options));
+            console.log("About to call registration call with parameters: " + JSON.stringify(options));
 
-        var response = await SwaggerCall.call('POST', '/api/v1/registration/verifier', options);
+            var response = await SwaggerCall.call('POST', '/api/v1/registration/verifier', options);
 
-        console.log("Verifier Registration response is complete with response: " + JSON.stringify(response));
+            console.log("Verifier Registration response is complete with response: " + JSON.stringify(response));
 
-        if(!response) return "No response from verifier call";
-        if(!response.isSuccess) return JSON.stringify(response);
+            if(!response) return "No response from verifier call";
+            if(!response.isSuccess) return JSON.stringify(response);
 
-        var data = response.data;
+            var data = response.data;
 
-        var wallet = JSON.parse(data.wallet);
-        wallet.loginPassword = password;
+            var wallet = JSON.parse(data.wallet);
+            wallet.loginPassword = password;
 
-        var opt = {
-            roleId: '3',
-            userId: data.uid
-        }
+            var opt = {
+                roleId: '3',
+                userId: data.uid
+            }
 
-        console.log("About to make change role call");
+            console.log("About to make change role call");
 
-        var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
+            var resp = await TokenCall.call('PATCH', '/api/v1/users/role', opt, token);
 
-        console.log("Change role call made with response: " + JSON.stringify(resp));
+            console.log("Change role call made with response: " + JSON.stringify(resp));
 
-        if(!resp) return "No response from change role call";
-        if(!resp.isSuccess) return JSON.stringify(resp);
+            if(!resp) return "No response from change role call";
+            if(!resp.isSuccess) return JSON.stringify(resp);
 
-        var creat = {
-            email: email,
-            empID: uuid,
-            name: name + lastName,
-            designation: designation,
-            bank: bank,
-            accountNumber: accountNumber,
-            pan: pan,
-            salary: salary,
-            walletAddress: wallet.address
-        }
+            var creat = {
+                email: email,
+                empID: uuid,
+                name: name + lastName,
+                designation: designation,
+                bank: bank,
+                accountNumber: accountNumber,
+                pan: pan,
+                salary: salary,
+                walletAddress: wallet.address
+            }
 
-        console.log("About to make a row");
+            console.log("About to make a row");
 
-        app.sdb.create('employee', creat);
+            app.sdb.create('employee', creat);
 
-        //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
+            //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
 
-        registrationMail.mailing(wallet, email, name);
+            registrationMail.mailing(wallet, email, name);
         }
             
         else{
@@ -267,7 +261,7 @@ module.exports = {
                 accountNumber: accountNumber,
                 pan: pan,
                 salary: salary,
-                token: token
+                token: jwtToken
             }
             app.sdb.create("pendingemp", crea);
             console.log("Asking address")
