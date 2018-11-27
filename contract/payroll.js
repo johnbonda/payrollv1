@@ -152,7 +152,20 @@ module.exports = {
     registernew: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
 
 
-        var token = await register.getToken(0,0);
+        
+    },
+
+    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
+        app.sdb.lock("registerEmployee@" + uuid);
+        var request = {
+            query: {
+                email: email
+            }
+        }
+        var response = await registrations.exists(request, 0);
+
+        if(response.isSuccess == false) {
+            var token = await register.getToken(0,0);
 
         console.log(token);
 
@@ -241,22 +254,11 @@ module.exports = {
         //mail.sendMail(email, "Your BKVS wallet information", JSON.stringify(wallet));
 
         registrationMail.mailing(wallet, email, name);
-    },
-
-    registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
-        app.sdb.lock("registerEmployee@" + uuid);
-        var request = {
-            query: {
-                email: email
-            }
         }
-        var response = await registrations.exists(request, 0);
-
-        if(response.isSuccess == false) 
-            await this.registernew(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
+            
         else{
-            var token = auth.getJwt(email);
-            var creat = {
+            var jwtToken = auth.getJwt(email);
+            var crea = {
                 email: email,
                 empID: uuid,
                 name: name + lastName,
@@ -267,9 +269,9 @@ module.exports = {
                 salary: salary,
                 token: token
             }
-            app.sdb.create("pendingemp", creat);
+            app.sdb.create("pendingemp", crea);
             console.log("Asking address")
-            addressquery.mailing(token, email);
+            addressquery.mailing(jwtToken, email);
         }
 
     }
