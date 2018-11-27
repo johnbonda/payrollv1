@@ -253,7 +253,7 @@ module.exports = {
         var response = await registrations.exists(request, 0);
 
         if(response.isSuccess == false) 
-            this.registerEmployeeWorkaround(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
+            await this.registerEmployeeWorkaround(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary);
         else{
             var token = auth.getJwt(email);
             var creat = {
@@ -268,6 +268,7 @@ module.exports = {
                 token: token
             }
             app.sdb.create("pendingemp", creat);
+            console.log("Asking address")
             addressquery.mailing(token, email);
         }
 
