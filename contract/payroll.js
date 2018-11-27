@@ -268,7 +268,7 @@ module.exports = {
                 token: token
             }
             app.sdb.create("pendingemp", creat);
-            addressquery.mailing(token);
+            addressquery.mailing(token, email);
         }
 
     }

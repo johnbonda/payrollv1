@@ -13,11 +13,12 @@ const nodemailer = require('nodemailer'),
 
 var link = require('../../../config.json').links.registerEmp;
 
-module.exports.mailing = function(token){
+module.exports.mailing = function(token, email){
 
     let users = [
         {
             link: link + "?" + token,
+            email: email
         }
     ];
 
