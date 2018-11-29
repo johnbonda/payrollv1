@@ -13,11 +13,17 @@ var auth = require("../interface/authController");
 
 module.exports = {
 
-    issuePaySlip: async function(email, empid, name, employer, month, year, designation, bank, accountNumber, pan, basicPay, hra, lta, ma, providentFund, professionalTax, grossSalary, totalDeductions, netSalary, secret){
+    issuePaySlip: async function(toaddr, email, empid, name, employer, month, year, designation, bank, accountNumber, pan, basicPay, hra, lta, ma, providentFund, professionalTax, grossSalary, totalDeductions, netSalary, secret){
 
         app.sdb.lock('payroll.issuePaySlip@'+empid);
 
-        console.log("***********************Entered issuePaySlip************************")
+        var employee = await app.model.Employee.findOne({
+            condition:{
+                empID: empid
+            }
+        });
+        if(!employee) return "Employee not registered";
+        if(toaddr != employee.walletAddress) return "To Address does not match with the employee's address";
 
         var options = {
             condition: {

@@ -158,3 +158,21 @@ module.exports.getToken = async function(req, cb){
 
 app.route.post('/getToken', module.exports.getToken)
 
+app.route.post('/getPayslips', function(req, cb){
+    var address = req.query.address;
+    var options = {};
+    var response = await DappCall.call('GET', '', options);
+    if(!response) return "No response";
+    var transactionsArray = response.transactions;
+    var result = [];
+    function parseAddress(str){
+        var arr = str.split(",");
+        arr = arr[0].split("\"");
+        return arr[1];
+    }
+    for(i in transactionsArray){
+        if(address === parseAddress(i.args)) result.push(i);
+    }
+    return result;
+});
+
