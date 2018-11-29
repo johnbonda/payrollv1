@@ -158,7 +158,7 @@ module.exports.getToken = async function(req, cb){
 
 app.route.post('/getToken', module.exports.getToken)
 
-app.route.post('/getPayslips', function(req, cb){
+app.route.post('/getPayslips', async function(req, cb){
     var address = req.query.address;
     var options = {};
     var response = await DappCall.call('GET', '', options);
