@@ -172,7 +172,7 @@ app.route.post('/getPayslips', async function(req, cb){
         return arr[1];
     }
     for(i in transactionsArray){
-        if(address === parseAddress(transactionsArray[i].args)) result.push(i);
+        if(address === parseAddress(transactionsArray[i].args)) result.push(transactionsArray[i]);
     }
     return result;
 });
