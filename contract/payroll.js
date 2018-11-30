@@ -157,25 +157,27 @@ module.exports = {
 
     registerEmployee: async function(countryCode, email, lastName, name, uuid, designation, bank, accountNumber, pan, salary){
         app.sdb.lock("registerEmployee@" + uuid);
+        
+        var result = await app.model.Employee.exists({
+            email: email
+        });
+        if(result) return "Employee already registered";
+        
         var request = {
             query: {
                 email: email
             }
         }
         var response = await registrations.exists(request, 0);
-
+        
         if(response.isSuccess == false) {
             var token = await register.getToken(0,0);
-
+            
             console.log(token);
 
             if(token === "0" || token ==="-1") return "Error in retrieving token";
             
             console.log(email)
-            var result = await app.model.Employee.exists({
-                email: email
-            });
-            if(result) return "Employee already registered";
 
             console.log("Passed email already exists or not");
 
